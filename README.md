@@ -150,6 +150,3 @@ Project ini adalah open-sourced software licensed under the [MIT license](https:
 - [Laravel](https://laravel.com)
 - [Tailwind CSS](https://tailwindcss.com)
 - [All Contributors](../../contributors)
-
-
-Made with 💚 for a greener Indonesia
