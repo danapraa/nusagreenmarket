@@ -40,4 +40,45 @@ class HomeController extends Controller
 
         return view('customer.product-detail', compact('product', 'related_products'));
     }
+
+    public function products(Request $request)
+{
+    $query = Product::with('category')->active()->inStock();
+
+    // Filter by category
+    if ($request->filled('category')) {
+        $query->where('category_id', $request->category);
+    }
+
+    // Search
+    if ($request->filled('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    // Sorting
+    if ($request->filled('sort')) {
+        switch ($request->sort) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            default:
+                $query->latest();
+        }
+    } else {
+        $query->latest();
+    }
+
+    $products = $query->paginate(12)->withQueryString();
+    $categories = Category::where('is_active', true)->withCount(['products' => function($q) {
+        $q->active()->inStock();
+    }])->get();
+
+    return view('customer.products', compact('products', 'categories'));
+}
 }

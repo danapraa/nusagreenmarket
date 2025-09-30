@@ -74,7 +74,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="p-4">
-                <h4 class="mb-0"><i class="fas fa-leaf"></i> NusaGreen</h4>
+                <h4 class="mb-0"><i class="fas fa-leaf"></i> NusaGreenMarket</h4>
                 <small class="text-white-50">Admin Panel</small>
             </div>
             <nav class="nav flex-column mt-3">
@@ -89,6 +89,9 @@
                 </a>
                 <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                     <i class="fas fa-box me-2"></i> Pesanan
+                </a>
+                <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+                <i class="fas fa-users me-2"></i> Customer
                 </a>
                 <hr class="text-white-50 mx-3">
                 <a href="{{ route('customer.home') }}" class="nav-link" target="_blank">

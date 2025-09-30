@@ -97,51 +97,54 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('customer.home') }}">Beranda</a>
-                    </li>
-                    @auth
-                        @if(auth()->user()->isCustomer())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('customer.orders.index') }}">Pesanan Saya</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link position-relative" href="{{ route('customer.cart') }}">
-                                    <i class="fas fa-shopping-cart"></i> Keranjang
-                                    @php
-                                        $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
-                                        $itemCount = $cart ? $cart->items->sum('quantity') : 0;
-                                    @endphp
-                                    @if($itemCount > 0)
-                                        <span class="cart-badge">{{ $itemCount }}</span>
-                                    @endif
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    {{ auth()->user()->name }}
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+    <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('customer.home') }}">Beranda</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('customer.products') }}">Produk</a>
+        </li>
+        @auth
+            @if(auth()->user()->isCustomer())
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customer.orders.index') }}">Pesanan Saya</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="{{ route('customer.cart') }}">
+                        <i class="fas fa-shopping-cart"></i> Keranjang
+                        @php
+                            $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+                            $itemCount = $cart ? $cart->items->sum('quantity') : 0;
+                        @endphp
+                        @if($itemCount > 0)
+                            <span class="cart-badge">{{ $itemCount }}</span>
                         @endif
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        {{ auth()->user()->name }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Daftar</a>
-                        </li>
-                    @endauth
-                </ul>
-            </div>
+                    </ul>
+                </li>
+            @endif
+        @else
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Daftar</a>
+            </li>
+        @endauth
+    </ul>
+</div>
         </div>
     </nav>
 

@@ -4,13 +4,13 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero-section py-5" style="min-height: 500px; color: white; position: relative; background-image: url('{{ asset('images/sawah.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<section class="hero-section py-5" style="min-height: 500px; color: white; position: relative; background-image: url('{{ asset('storage/images/sawah.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row align-items-center" style="min-height: 400px;">
             <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-3">Sayuran Segar Langsung dari Petani</h1>
-                <p class="lead mb-4">Nikmati kesegaran sayuran organik yang ditanam dengan penuh kasih oleh petani lokal kami. Dari kebun ke meja Anda!</p>
+                <h1 class="display-4 fw-bold mb-3">Tempat belanja Sayur - Sayuran dan Buah - buahan</h1>
+                <p class="lead mb-4">NusaGreenMarket adalah platform penjualan sayur-sayuran dan buah-buahan yang dipetik langsung dari kebun untuk menjamin kesegaran maksimal.</p>
                 <a href="#products" class="btn btn-light btn-lg px-5">Belanja Sekarang</a>
             </div>
         </div>
