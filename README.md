@@ -130,15 +130,12 @@ npm run dev
 Setelah seeding database, Anda dapat login dengan kredensial berikut:
 
 **Admin:**
-- Email: admin@nusagreenmarket.com
+- Email: admin@nusagreen.com
 - Password: password
 
-**Seller:**
-- Email: seller@nusagreenmarket.com
-- Password: password
 
 **Customer:**
-- Email: customer@nusagreenmarket.com
+- Email: customer@nusagreen.com
 - Password: password
 
 ## License
