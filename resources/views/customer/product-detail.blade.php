@@ -23,6 +23,29 @@
             
             <h2 class="mb-3">{{ $product->name }}</h2>
             
+            <!-- Rating Display -->
+            <div class="mb-3">
+                <div class="d-flex align-items-center">
+                    <div class="me-2">
+                        @php
+                            $avgRating = $product->averageRating();
+                            $fullStars = floor($avgRating);
+                            $halfStar = ($avgRating - $fullStars) >= 0.5;
+                        @endphp
+                        @for($i = 1; $i <= 5; $i++)
+                            @if($i <= $fullStars)
+                                <i class="fas fa-star text-warning"></i>
+                            @elseif($i == $fullStars + 1 && $halfStar)
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                            @else
+                                <i class="far fa-star text-warning"></i>
+                            @endif
+                        @endfor
+                    </div>
+                    <span class="text-muted">{{ number_format($avgRating, 1) }} ({{ $product->totalReviews() }} ulasan)</span>
+                </div>
+            </div>
+            
             <div class="mb-3">
                 <span class="badge bg-secondary">{{ $product->category->name }}</span>
                 <span class="text-muted ms-2">
@@ -80,6 +103,111 @@
         </div>
     </div>
     
+    <!-- Reviews Section -->
+    <div class="mt-5">
+        <h4 class="mb-4">Ulasan Pelanggan ({{ $product->totalReviews() }})</h4>
+        
+        @auth
+            @if(auth()->user()->isCustomer())
+                @php
+                    // Cek apakah user pernah beli produk ini
+                    $purchasedOrders = auth()->user()->orders()
+                        ->where('status', 'delivered')
+                        ->whereHas('items', function($q) use ($product) {
+                            $q->where('product_id', $product->id);
+                        })
+                        ->get();
+                    
+                    // Cek order mana saja yang belum di-review
+                    $canReview = $purchasedOrders->filter(function($order) use ($product) {
+                        return !$product->reviews()
+                            ->where('user_id', auth()->id())
+                            ->where('order_id', $order->id)
+                            ->exists();
+                    });
+                @endphp
+                
+                @if($canReview->count() > 0)
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5>Tulis Ulasan Anda</h5>
+                        <form action="{{ route('customer.reviews.store', $product) }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label">Pilih Pesanan</label>
+                                <select name="order_id" class="form-select" required>
+                                    <option value="">-- Pilih Pesanan --</option>
+                                    @foreach($canReview as $order)
+                                    <option value="{{ $order->id }}">
+                                        {{ $order->order_number }} - {{ $order->created_at->format('d M Y') }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Rating</label>
+                                <div class="rating-input">
+                                    @for($i = 5; $i >= 1; $i--)
+                                    <input type="radio" name="rating" value="{{ $i }}" id="star{{ $i }}" required>
+                                    <label for="star{{ $i }}"><i class="fas fa-star"></i></label>
+                                    @endfor
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Komentar (Opsional)</label>
+                                <textarea name="comment" class="form-control" rows="3" placeholder="Bagikan pengalaman Anda..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-paper-plane"></i> Kirim Ulasan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                @endif
+            @endif
+        @endauth
+        
+        <!-- List Reviews -->
+        <div class="reviews-list">
+            @forelse($product->reviews()->with('user')->latest()->get() as $review)
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>{{ $review->user->name }}</strong>
+                            <div class="text-warning">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star{{ $i <= $review->rating ? '' : ' text-muted' }}"></i>
+                                @endfor
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted">{{ $review->created_at->diffForHumans() }}</small>
+                            @if(auth()->check() && auth()->id() == $review->user_id)
+                            <form action="{{ route('customer.reviews.destroy', $review) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-link text-danger" onclick="return confirm('Hapus review?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            @endif
+                        </div>
+                    </div>
+                    @if($review->comment)
+                    <p class="mb-0 mt-2">{{ $review->comment }}</p>
+                    @endif
+                </div>
+            </div>
+            @empty
+            <div class="text-center text-muted py-4">
+                <i class="fas fa-comment-slash fa-3x mb-3"></i>
+                <p>Belum ada ulasan untuk produk ini</p>
+            </div>
+            @endforelse
+        </div>
+    </div>
+    
     <!-- Related Products -->
     @if($related_products->count() > 0)
     <div class="mt-5">
@@ -115,4 +243,28 @@
     </div>
     @endif
 </div>
+
+@push('styles')
+<style>
+.rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+.rating-input input {
+    display: none;
+}
+.rating-input label {
+    cursor: pointer;
+    font-size: 2rem;
+    color: #ddd;
+    transition: color 0.2s;
+}
+.rating-input input:checked ~ label,
+.rating-input label:hover,
+.rating-input label:hover ~ label {
+    color: #ffc107;
+}
+</style>
+@endpush
 @endsection

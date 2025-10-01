@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
+use App\Http\Controllers\Customer\ProfileController;
+use App\Http\Controllers\Customer\ReviewController;
 
 // Home / Landing Page
 Route::get('/', function () {
@@ -70,12 +72,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 Route::name('customer.')->group(function () {
     // Home & Products
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/products', [HomeController::class, 'products'])->name('products'); // Tambahkan ini
+    Route::get('/products', [HomeController::class, 'products'])->name('products');
     Route::get('/products/{product}', [HomeController::class, 'show'])->name('products.show');
 });
 
 // Protected Customer Routes
 Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
+    
+    // Profile Management
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     
     // Cart Management
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
@@ -90,4 +97,8 @@ Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
     Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/cancel', [CustomerOrderController::class, 'cancel'])->name('orders.cancel');
+    
+    // Reviews Management
+    Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
