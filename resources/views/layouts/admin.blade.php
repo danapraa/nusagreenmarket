@@ -74,7 +74,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="p-4">
-                <h4 class="mb-0"><i class="fas fa-leaf"></i> NusaGreenMarket</h4>
+                <h4 class="mb-0"><img src="/storage/images/logocompro.png" alt="NusaGreenMarket Logo" width="50" height="50"> NusaGreenMarket</h4>
                 <small class="text-white-50">Admin Panel</small>
             </div>
             <nav class="nav flex-column mt-3">

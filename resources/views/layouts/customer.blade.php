@@ -91,7 +91,8 @@
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('customer.home') }}">
-                <i class="fas fa-leaf"></i> NusaGreenMarket
+                <img src="storage/images/logocompro.png" alt="NusaGreenMarket Logo" width="50" height="50">
+                <span>NusaGreenMarket</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
