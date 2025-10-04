@@ -182,7 +182,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5><i class="fas fa-leaf"></i> NusaGreenMarket</h5>
+                    <img src="storage/images/logo-putih.png" alt="NusaGreenMarket Logo" width="50" height="50">
+                <span>NusaGreenMarket</span>
                     <p class="text-white-50">Sayuran segar langsung dari petani ke meja Anda.</p>
                 </div>
                 <div class="col-md-4">

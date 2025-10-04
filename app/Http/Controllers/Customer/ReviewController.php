@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
@@ -16,6 +17,7 @@ class ReviewController extends Controller
             'order_id' => 'required|exists:orders,id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Tambahkan validasi image
         ]);
 
         // Cek apakah user sudah pernah beli produk ini di order tersebut
@@ -40,12 +42,18 @@ class ReviewController extends Controller
             return back()->with('error', 'Anda sudah memberikan review untuk produk ini');
         }
 
+        // Upload image jika ada
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('reviews', 'public');
+        }
+
         Review::create([
             'user_id' => auth()->id(),
             'product_id' => $product->id,
             'order_id' => $order->id,
             'rating' => $validated['rating'],
             'comment' => $validated['comment'],
+            'image' => $validated['image'] ?? null,
         ]);
 
         return back()->with('success', 'Review berhasil ditambahkan!');
@@ -55,6 +63,11 @@ class ReviewController extends Controller
     {
         if ($review->user_id !== auth()->id()) {
             abort(403);
+        }
+
+        // Hapus gambar jika ada
+        if ($review->image) {
+            Storage::disk('public')->delete($review->image);
         }
 
         $review->delete();
