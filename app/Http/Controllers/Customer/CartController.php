@@ -89,4 +89,29 @@ class CartController extends Controller
             'user_id' => auth()->id(),
         ]);
     }
+    public function toggleSelect(CartItem $cartItem)
+{
+    if ($cartItem->cart->user_id !== auth()->id()) {
+        abort(403);
+    }
+
+    $cartItem->update([
+        'is_selected' => !$cartItem->is_selected
+    ]);
+
+    return back()->with('success', 'Produk ' . ($cartItem->is_selected ? 'dipilih' : 'tidak dipilih'));
+}
+
+public function selectAll(Request $request)
+{
+    $cart = $this->getOrCreateCart();
+    
+    $selectAll = $request->input('select_all', true);
+    
+    $cart->items()->update([
+        'is_selected' => $selectAll
+    ]);
+
+    return back()->with('success', $selectAll ? 'Semua produk dipilih' : 'Semua produk dibatalkan');
+}
 }

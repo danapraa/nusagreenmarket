@@ -35,13 +35,15 @@ class OrderController extends Controller
     {
         $cart = Cart::where('user_id', auth()->id())->first();
 
-        if (!$cart || $cart->items->isEmpty()) {
-            return redirect()->route('customer.cart')->with('error', 'Keranjang kosong');
+        if (!$cart || $cart->selectedItems()->count() == 0) {
+            return redirect()->route('customer.cart')->with('error', 'Pilih produk yang ingin dibeli');
         }
 
-        $cart->load('items.product');
+        $cart->load(['items' => function($query) {
+            $query->where('is_selected', true)->with('product');
+        }]);
 
-        // Cek stok
+        // Cek stok hanya untuk item yang dipilih
         foreach ($cart->items as $item) {
             if ($item->product->stock < $item->quantity) {
                 return back()->with('error', "Stok {$item->product->name} tidak mencukupi");
@@ -63,13 +65,15 @@ class OrderController extends Controller
 
         $cart = Cart::where('user_id', auth()->id())->first();
 
-        if (!$cart || $cart->items->isEmpty()) {
-            return redirect()->route('customer.cart')->with('error', 'Keranjang kosong');
+        if (!$cart || $cart->selectedItems()->count() == 0) {
+            return redirect()->route('customer.cart')->with('error', 'Pilih produk yang ingin dibeli');
         }
 
-        $cart->load('items.product');
+        $cart->load(['items' => function($query) {
+            $query->where('is_selected', true)->with('product');
+        }]);
 
-        // Hitung total
+        // Hitung total hanya dari yang dipilih
         $subtotal = $cart->items->sum(function ($item) {
             return $item->price * $item->quantity;
         });
@@ -95,8 +99,10 @@ class OrderController extends Controller
                 'special_requests' => $validated['special_requests'] ?? null,
             ]);
 
-            // Create order items & update stock
+            // Create order items & update stock hanya untuk yang dipilih
             foreach ($cart->items as $item) {
+                if (!$item->is_selected) continue; // Skip yang tidak dipilih
+
                 if ($item->product->stock < $item->quantity) {
                     throw new \Exception("Stok {$item->product->name} tidak mencukupi");
                 }
@@ -114,8 +120,8 @@ class OrderController extends Controller
                 $item->product->decrement('stock', $item->quantity);
             }
 
-            // Clear cart
-            $cart->items()->delete();
+            // Clear hanya yang dipilih
+            $cart->items()->where('is_selected', true)->delete();
 
             DB::commit();
 
