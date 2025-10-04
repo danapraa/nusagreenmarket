@@ -111,6 +111,17 @@
                                 <a class="nav-link" href="{{ route('customer.orders.index') }}">Pesanan Saya</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link position-relative" href="{{ route('customer.favorites.index') }}">
+                                    <i class="fas fa-heart"></i> Favorit
+                                    @php
+                                        $favoriteCount = \App\Models\Favorite::where('user_id', auth()->id())->count();
+                                    @endphp
+                                    @if($favoriteCount > 0)
+                                        <span class="cart-badge">{{ $favoriteCount }}</span>
+                                    @endif
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link position-relative" href="{{ route('customer.cart') }}">
                                     <i class="fas fa-shopping-cart"></i> Keranjang
                                     @php

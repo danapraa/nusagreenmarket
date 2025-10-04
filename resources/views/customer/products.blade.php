@@ -112,17 +112,31 @@
                                 
                                 @auth
                                     @if(auth()->user()->isCustomer())
-                                    <form action="{{ route('customer.cart.add', $product) }}" method="POST">
-                                        @csrf
-                                        <div class="input-group mb-2">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">-</button>
-                                            <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="{{ $product->stock }}" style="max-width: 60px;">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">+</button>
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="fas fa-cart-plus"></i>
+                                    <div class="d-flex gap-2">
+                                        <form action="{{ route('customer.cart.add', $product) }}" method="POST" class="flex-grow-1">
+                                            @csrf
+                                            <div class="input-group mb-2">
+                                                <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">-</button>
+                                                <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="{{ $product->stock }}" style="max-width: 60px;">
+                                                <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">+</button>
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                        
+                                        @php
+                                            $isFavorite = \App\Models\Favorite::where('user_id', auth()->id())
+                                                ->where('product_id', $product->id)
+                                                ->exists();
+                                        @endphp
+                                        <form action="{{ route('customer.favorites.add', $product) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-{{ $isFavorite ? 'danger' : 'outline-danger' }}" title="{{ $isFavorite ? 'Sudah difavoritkan' : 'Tambah ke favorit' }}" style="height: 38px;">
+                                                <i class="fas fa-heart"></i>
                                             </button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                     @endif
                                 @else
                                 <a href="{{ route('login') }}" class="btn btn-success w-100 mb-2">Login untuk Belanja</a>

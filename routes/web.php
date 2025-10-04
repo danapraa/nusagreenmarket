@@ -11,6 +11,7 @@ use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\ReviewController;
+use App\Http\Controllers\Customer\FavoriteController;
 
 // Home / Landing Page
 Route::get('/', function () {
@@ -83,6 +84,12 @@ Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    
+    // Favorites Management
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/add/{product}', [FavoriteController::class, 'add'])->name('favorites.add');
+    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'remove'])->name('favorites.remove');
+    Route::post('/favorites/{favorite}/move-to-cart', [FavoriteController::class, 'moveToCart'])->name('favorites.move-to-cart');
     
     // Cart Management
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
