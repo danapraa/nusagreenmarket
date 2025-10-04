@@ -29,5 +29,22 @@ class Cart extends Model
     {
         return $this->items->sum('quantity');
     }
+    
+    public function getSelectedTotalAttribute()
+{
+    return $this->items()->where('is_selected', true)->get()->sum(function ($item) {
+        return $item->price * $item->quantity;
+    });
+}
+
+public function getSelectedItemCountAttribute()
+{
+    return $this->items()->where('is_selected', true)->sum('quantity');
+}
+
+public function selectedItems()
+{
+    return $this->items()->where('is_selected', true);
+}
 }
 

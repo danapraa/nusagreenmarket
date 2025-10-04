@@ -95,6 +95,8 @@ Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+    Route::patch('/cart/{cartItem}/toggle', [CartController::class, 'toggleSelect'])->name('cart.toggle');
+    Route::post('/cart/select-all', [CartController::class, 'selectAll'])->name('cart.select-all');
     Route::delete('/cart/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
     
