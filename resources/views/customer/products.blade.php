@@ -52,9 +52,12 @@
                                 <label class="form-label fw-bold">Urutkan</label>
                                 <select name="sort" class="form-select" onchange="this.form.submit()">
                                     <option value="">Terbaru</option>
-                                    <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Nama A-Z</option>
                                     <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Harga Terendah</option>
                                     <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Harga Tertinggi</option>
+                                    <option value="best_seller" {{ request('sort') == 'best_seller' ? 'selected' : '' }}>Best Seller</option>
+                                    <option value="premium" {{ request('sort') == 'premium' ? 'selected' : '' }}>Premium</option>
+                                    <option value="fresh" {{ request('sort') == 'fresh' ? 'selected' : '' }}>Fresh</option>
+                                    <option value="organic" {{ request('sort') == 'organic' ? 'selected' : '' }}>Organic</option>
                                 </select>
                             </div>
 
@@ -87,18 +90,36 @@
                     @forelse($products as $product)
                     <div class="col-lg-4 col-md-6">
                         <div class="product-card card h-100">
-                            @if($product->badge)
-                            <div class="product-badge">{{ $product->badge }}</div>
-                            @endif
-                            
-                            @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" style="height: 200px; object-fit: cover;">
-                            @else
-                            <div class="card-img-top d-flex align-items-center justify-content-center" 
-                                 style="height: 200px; background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white; font-size: 3rem;">
-                                🥬
+                            <div style="position: relative;">
+                                @if($product->badge)
+                                <div class="product-badge">{{ $product->badge }}</div>
+                                @endif
+                                
+                                @auth
+                                    @if(auth()->user()->isCustomer())
+                                        @php
+                                            $isFavorite = \App\Models\Favorite::where('user_id', auth()->id())
+                                                ->where('product_id', $product->id)
+                                                ->exists();
+                                        @endphp
+                                        <form action="{{ route('customer.favorites.add', $product) }}" method="POST" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm" style="background-color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: none;" title="{{ $isFavorite ? 'Sudah difavoritkan' : 'Tambah ke favorit' }}">
+                                                <i class="fas fa-heart" style="color: {{ $isFavorite ? '#dc3545' : '#e0e0e0' }}; font-size: 1.2rem;"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endauth
+                                
+                                @if($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" style="height: 200px; object-fit: cover;">
+                                @else
+                                <div class="card-img-top d-flex align-items-center justify-content-center" 
+                                     style="height: 200px; background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white; font-size: 3rem;">
+                                    🥬
+                                </div>
+                                @endif
                             </div>
-                            @endif
 
                             <div class="card-body">
                                 <span class="badge bg-secondary mb-2">{{ $product->category->name }}</span>
@@ -155,18 +176,6 @@
                                                     <i class="fas fa-cart-plus"></i>
                                                 </button>
                                             </div>
-                                        </form>
-                                        
-                                        @php
-                                            $isFavorite = \App\Models\Favorite::where('user_id', auth()->id())
-                                                ->where('product_id', $product->id)
-                                                ->exists();
-                                        @endphp
-                                        <form action="{{ route('customer.favorites.add', $product) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-{{ $isFavorite ? 'danger' : 'outline-danger' }}" title="{{ $isFavorite ? 'Sudah difavoritkan' : 'Tambah ke favorit' }}">
-                                                <i class="fas fa-heart"></i>
-                                            </button>
                                         </form>
                                     </div>
                                     @endif
