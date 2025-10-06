@@ -102,6 +102,38 @@
 
                             <div class="card-body">
                                 <span class="badge bg-secondary mb-2">{{ $product->category->name }}</span>
+                                
+                                <!-- Rating Display -->
+                                <div class="mb-2">
+                                    @php
+                                        $avgRating = $product->averageRating();
+                                        $totalReviews = $product->totalReviews();
+                                        $fullStars = floor($avgRating);
+                                        $halfStar = ($avgRating - $fullStars) >= 0.5;
+                                    @endphp
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-1">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= $fullStars)
+                                                    <i class="fas fa-star text-warning" style="font-size: 0.85rem;"></i>
+                                                @elseif($i == $fullStars + 1 && $halfStar)
+                                                    <i class="fas fa-star-half-alt text-warning" style="font-size: 0.85rem;"></i>
+                                                @else
+                                                    <i class="far fa-star text-warning" style="font-size: 0.85rem;"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ number_format($avgRating, 1) }} 
+                                            @if($totalReviews > 0)
+                                                ({{ $totalReviews }} ulasan)
+                                            @else
+                                                (Belum ada ulasan)
+                                            @endif
+                                        </small>
+                                    </div>
+                                </div>
+                                
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="text-muted small mb-2">
                                     <i class="fas fa-map-marker-alt"></i> {{ $product->origin ?? 'Kebun Lokal' }} • 
@@ -112,14 +144,14 @@
                                 
                                 @auth
                                     @if(auth()->user()->isCustomer())
-                                    <div class="d-flex gap-2">
+                                    <div class="d-flex gap-2 mb-2">
                                         <form action="{{ route('customer.cart.add', $product) }}" method="POST" class="flex-grow-1">
                                             @csrf
-                                            <div class="input-group mb-2">
-                                                <button type="button" class="btn btn-outline-secondary" onclick="decrementQty(this)">-</button>
+                                            <div class="input-group">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decrementQty(this)">-</button>
                                                 <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="{{ $product->stock }}" style="max-width: 60px;">
-                                                <button type="button" class="btn btn-outline-secondary" onclick="incrementQty(this)">+</button>
-                                                <button type="submit" class="btn btn-success">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="incrementQty(this)">+</button>
+                                                <button type="submit" class="btn btn-success btn-sm">
                                                     <i class="fas fa-cart-plus"></i>
                                                 </button>
                                             </div>
@@ -132,7 +164,7 @@
                                         @endphp
                                         <form action="{{ route('customer.favorites.add', $product) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-{{ $isFavorite ? 'danger' : 'outline-danger' }}" title="{{ $isFavorite ? 'Sudah difavoritkan' : 'Tambah ke favorit' }}" style="height: 38px;">
+                                            <button type="submit" class="btn btn-sm btn-{{ $isFavorite ? 'danger' : 'outline-danger' }}" title="{{ $isFavorite ? 'Sudah difavoritkan' : 'Tambah ke favorit' }}">
                                                 <i class="fas fa-heart"></i>
                                             </button>
                                         </form>
@@ -142,8 +174,8 @@
                                 <a href="{{ route('login') }}" class="btn btn-success w-100 mb-2">Login untuk Belanja</a>
                                 @endauth
                                 
-                                <a href="{{ route('customer.products.show', $product) }}" class="btn btn-outline-success w-100">
-                                    <i class="fas fa-eye"></i> Detail
+                                <a href="{{ route('customer.products.show', $product) }}" class="btn btn-outline-success w-100 btn-sm">
+                                    <i class="fas fa-eye"></i> Detail & Ulasan
                                 </a>
                             </div>
                         </div>
