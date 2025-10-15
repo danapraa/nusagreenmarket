@@ -54,9 +54,6 @@
                                     <option value="">Terbaru</option>
                                     <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Harga Terendah</option>
                                     <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Harga Tertinggi</option>
-                                    <option value="best_seller" {{ request('sort') == 'best_seller' ? 'selected' : '' }}>Best Seller</option>
-                                    <option value="premium" {{ request('sort') == 'premium' ? 'selected' : '' }}>Premium</option>
-                                    <option value="organic" {{ request('sort') == 'organic' ? 'selected' : '' }}>Organic</option>
                                 </select>
                             </div>
 
