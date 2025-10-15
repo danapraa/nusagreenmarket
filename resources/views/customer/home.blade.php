@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'NusaGreenMarket - Sayuran Segar')
+@section('title', 'NusaGreenMarket')
 
 @section('content')
 <!-- Hero Section -->
