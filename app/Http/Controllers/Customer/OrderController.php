@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -162,4 +163,33 @@ class OrderController extends Controller
             return back()->with('error', 'Gagal membatalkan pesanan');
         }
     }
+
+    public function uploadPaymentProof(Request $request, Order $order)
+{
+    if ($order->user_id !== auth()->id()) {
+        abort(403);
+    }
+
+    if ($order->payment_status === 'paid') {
+        return back()->with('error', 'Pembayaran sudah dikonfirmasi');
+    }
+
+    $validated = $request->validate([
+        'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    // Hapus bukti lama jika ada
+    if ($order->payment_proof) {
+        Storage::disk('public')->delete($order->payment_proof);
+    }
+
+    $path = $request->file('payment_proof')->store('payment-proofs', 'public');
+
+    $order->update([
+        'payment_proof' => $path,
+        'payment_proof_uploaded_at' => now(),
+    ]);
+
+    return back()->with('success', 'Bukti pembayaran berhasil diupload. Menunggu verifikasi admin.');
+}
 }

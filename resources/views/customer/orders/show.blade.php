@@ -63,6 +63,45 @@
                 </div>
             </div>
 
+            <!-- Payment Status & Upload -->
+            @if($order->payment_status == 'unpaid')
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-circle"></i> Menunggu Pembayaran</h5>
+                </div>
+                <div class="card-body">
+                    @include('customer.payment-info')
+                    @if($order->payment_proof)
+                    <div class="alert alert-info">
+                        <i class="fas fa-check-circle"></i> Bukti pembayaran sudah diupload. Menunggu verifikasi admin.
+                    </div>
+                    <div class="mb-3">
+                        <strong>Bukti Transfer yang Diupload:</strong><br>
+                        <img src="{{ asset('storage/' . $order->payment_proof) }}" class="img-thumbnail mt-2" style="max-width: 300px;">
+                        <br>
+                        <small class="text-muted">Diupload: {{ $order->payment_proof_uploaded_at->format('d M Y H:i') }}</small>
+                    </div>
+                    @endif
+                    <form action="{{ route('customer.orders.upload-payment', $order) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">{{ $order->payment_proof ? 'Upload Ulang' : 'Upload' }} Bukti Transfer</label>
+                            <input type="file" name="payment_proof" class="form-control @error('payment_proof') is-invalid @enderror" accept="image/*" required>
+                            @error('payment_proof')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <small class="text-muted">Format: JPG, PNG. Maksimal 2MB</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> {{ $order->payment_proof ? 'Upload Ulang' : 'Upload' }} Bukti
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @else
+            <div class="alert alert-success mb-4">
+                <i class="fas fa-check-circle"></i> <strong>Pembayaran Sudah Dikonfirmasi</strong>
+            </div>
+            @endif
+
             <!-- Shipping Info -->
             <div class="card">
                 <div class="card-header bg-white">

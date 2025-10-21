@@ -7,27 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'order_number',
-        'user_id',
-        'subtotal',
-        'shipping_cost',
-        'total',
-        'status',
-        'payment_status',
-        'payment_method',
-        'shipping_address',
-        'phone',
-        'delivery_date',
-        'special_requests',
-        'notes',
-    ];
+    'order_number',
+    'user_id',
+    'subtotal',
+    'shipping_cost',
+    'total',
+    'status',
+    'payment_status',
+    'payment_method',
+    'payment_proof', // Tambahkan
+    'payment_proof_uploaded_at', // Tambahkan
+    'shipping_address',
+    'phone',
+    'delivery_date',
+    'special_requests',
+    'notes',
+];
 
-    protected $casts = [
-        'subtotal' => 'decimal:2',
-        'shipping_cost' => 'decimal:2',
-        'total' => 'decimal:2',
-        'delivery_date' => 'date',
-    ];
+protected $casts = [
+    'subtotal' => 'decimal:2',
+    'shipping_cost' => 'decimal:2',
+    'total' => 'decimal:2',
+    'delivery_date' => 'date',
+    'payment_proof_uploaded_at' => 'datetime', // Tambahkan
+];
 
     protected static function boot()
     {

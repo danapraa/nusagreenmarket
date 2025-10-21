@@ -43,6 +43,32 @@
             </div>
         </div>
 
+        <!-- Payment Verification -->
+        @if($order->payment_proof)
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Bukti Pembayaran</h5>
+            </div>
+            <div class="card-body">
+                <img src="{{ asset('storage/' . $order->payment_proof) }}" class="img-fluid rounded" alt="Payment Proof" style="max-width: 400px;">
+                <p class="mt-2 text-muted">Diupload: {{ $order->payment_proof_uploaded_at->format('d F Y H:i') }}</p>
+                
+                @if($order->payment_status == 'unpaid')
+                <form action="{{ route('admin.orders.update-payment', $order) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="payment_status" value="paid">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Konfirmasi Pembayaran
+                    </button>
+                </form>
+                @else
+                <span class="badge bg-success">Sudah Dikonfirmasi</span>
+                @endif
+            </div>
+        </div>
+        @endif
+
         <!-- Customer & Shipping Info -->
         <div class="card">
             <div class="card-header bg-white">
