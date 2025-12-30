@@ -11,6 +11,35 @@
         </a>
     </div>
 
+    <!-- Order Tracking Timeline -->
+    <div class="card mb-4">
+        <div class="card-header bg-white">
+            <h5 class="mb-0"><i class="fas fa-map-marked-alt"></i> Status Pengiriman</h5>
+        </div>
+        <div class="card-body">
+            <x-order-tracking :order="$order" />
+            
+            @if($order->status == 'shipped' && !$order->confirmed_at)
+            <div class="alert alert-warning mt-3">
+                <i class="fas fa-info-circle"></i> 
+                <strong>Pesanan sedang dikirim!</strong> Jika Anda sudah menerima pesanan, silakan konfirmasi di bawah.
+            </div>
+            <form action="{{ route('customer.orders.confirm-received', $order) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="btn btn-success btn-lg" onclick="return confirm('Konfirmasi bahwa Anda sudah menerima pesanan ini?')">
+                    <i class="fas fa-check-circle"></i> Konfirmasi Pesanan Diterima
+                </button>
+            </form>
+            @elseif($order->status == 'delivered')
+            <div class="alert alert-success mt-3">
+                <i class="fas fa-check-circle"></i> 
+                <strong>Pesanan telah diterima!</strong> Terima kasih atas konfirmasinya.
+            </div>
+            @endif
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-8">
             <!-- Order Info -->
@@ -178,6 +207,6 @@
             </div>
             @endif
         </div>
-    </div>
+    </div>  
 </div>
 @endsection

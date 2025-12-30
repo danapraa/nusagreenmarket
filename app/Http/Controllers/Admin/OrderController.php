@@ -41,7 +41,9 @@ class OrderController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
             'notes' => 'nullable|string',
-        ]);
+            'tracking_number' => 'nullable|string',
+            'courier_info' => 'nullable|string',
+            ]);
 
         $order->update($validated);
 
@@ -58,4 +60,5 @@ class OrderController extends Controller
 
         return redirect()->back()->with('success', 'Status pembayaran berhasil diupdate');
     }
+    
 }

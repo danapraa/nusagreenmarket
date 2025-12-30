@@ -11,10 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // TAMBAHKAN INI - Middleware aliases
         $middleware->alias([
             'admin' => \App\Http\Middleware\IsAdmin::class,
             'customer' => \App\Http\Middleware\IsCustomer::class,
+            'profile.completed' => \App\Http\Middleware\EnsureProfileCompleted::class, // Tambahkan ini
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

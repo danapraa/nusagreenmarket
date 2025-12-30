@@ -9,32 +9,58 @@
     <style>
         :root {
             --primary: #2d5a27;
-            --secondary: #4CAF50;
+            --secondary: #D0F0C0;
             --accent: #8BC34A;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
         }
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0;
-            position: fixed;
-            width: 250px;
-        }
-        .sidebar .nav-link {
-            color: rgba(255,255,255,0.8);
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin: 5px 10px;
-            transition: all 0.3s;
-        }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
+        :root {
+    --primary: #1a4d1a;
+    --secondary: #53f753;
+    --accent: #7cb342;
+}
+
+.sidebar {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #75eb75 0%, #279927 50%, #4ae44a 100%);
+    color: white;
+    padding: 0;
+    position: fixed;
+    width: 250px;
+}
+
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.9);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 5px 10px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background: rgba(255,255,255,0.25);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sidebar .nav-link i {
+    opacity: 0.9;
+}
+
+.sidebar h4 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.sidebar .text-white-50 {
+    color: rgba(255,255,255,0.7) !important;
+}
+
+.sidebar hr {
+    border-color: rgba(255,255,255,0.3) !important;
+}
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -97,7 +123,7 @@
                 <a href="{{ route('customer.home') }}" class="nav-link" target="_blank">
                     <i class="fas fa-store me-2"></i> Lihat Toko
                 </a>
-                <a href="{{ route('logout') }}" class="nav-link" 
+                <a href="{{ route('logout') }}" class="nav-link"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>

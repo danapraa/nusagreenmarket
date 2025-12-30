@@ -4,6 +4,15 @@
 
 @section('content')
 <div class="container py-5">
+    <!-- Alert Info untuk First Time -->
+    @if(isset($isFirstTime) && $isFirstTime)
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <h5 class="alert-heading"><i class="fas fa-info-circle"></i> Selamat Datang di NusaGreenMarket!</h5>
+        <p class="mb-0">Untuk dapat berbelanja, silakan lengkapi data profil Anda terlebih dahulu. Data ini akan digunakan untuk pengiriman pesanan.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
     <div class="row">
         <div class="col-lg-3">
             <!-- Sidebar -->
@@ -22,19 +31,23 @@
                         <a href="{{ route('customer.profile.edit') }}" class="list-group-item list-group-item-action active">
                             <i class="fas fa-user me-2"></i> Profile Saya
                         </a>
+                        @if(!isset($isFirstTime) || !$isFirstTime)
                         <a href="{{ route('customer.orders.index') }}" class="list-group-item list-group-item-action">
                             <i class="fas fa-box me-2"></i> Pesanan Saya
                         </a>
                         <a href="{{ route('customer.cart') }}" class="list-group-item list-group-item-action">
                             <i class="fas fa-shopping-cart me-2"></i> Keranjang
                         </a>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-9">
-            <h3 class="mb-4">Edit Profile</h3>
+            <h3 class="mb-4">
+                {{ isset($isFirstTime) && $isFirstTime ? 'Lengkapi Data Profil' : 'Edit Profile' }}
+            </h3>
 
             <!-- Update Profile Form -->
             <div class="card mb-4">
@@ -62,29 +75,45 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label class="form-label">No. Telepon/WhatsApp</label>
+                                <label class="form-label">No. Telepon/WhatsApp*</label>
                                 <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" 
-                                       value="{{ old('phone', $user->phone) }}" placeholder="08123456789">
+                                       value="{{ old('phone', $user->phone) }}" placeholder="08123456789" required>
                                 @error('phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <small class="text-muted">Nomor ini akan digunakan untuk konfirmasi pesanan</small>
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label class="form-label">Alamat Lengkap</label>
+                                <label class="form-label">Alamat Lengkap*</label>
                                 <textarea name="address" rows="3" class="form-control @error('address') is-invalid @enderror" 
-                                          placeholder="Jl. Contoh No. 123, Kota">{{ old('address', $user->address) }}</textarea>
+                                          placeholder="Jl. Contoh No. 123, RT/RW, Kelurahan, Kecamatan, Kota, Provinsi, Kode Pos" required>{{ old('address', $user->address) }}</textarea>
                                 @error('address')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 <small class="text-muted">Alamat ini akan digunakan sebagai alamat pengiriman default</small>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> Simpan Perubahan
+                        @if(isset($isFirstTime) && $isFirstTime)
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> 
+                            <strong>Perhatian:</strong> Pastikan semua data sudah benar sebelum melanjutkan. Terutama nomor telepon dan alamat untuk pengiriman.
+                        </div>
+                        @endif
+
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-save"></i> 
+                            {{ isset($isFirstTime) && $isFirstTime ? 'Simpan & Lanjutkan Belanja' : 'Simpan Perubahan' }}
                         </button>
+
+                        @if(!isset($isFirstTime) || !$isFirstTime)
+                        <a href="{{ route('customer.home') }}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times"></i> Batal
+                        </a>
+                        @endif
                     </form>
                 </div>
             </div>
 
-            <!-- Change Password Form -->
+            <!-- Change Password Form - Hanya tampil jika bukan first time -->
+            @if(!isset($isFirstTime) || !$isFirstTime)
             <div class="card">
                 <div class="card-header bg-white">
                     <h5 class="mb-0">Ubah Password</h5>
@@ -118,6 +147,7 @@
                     </form>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

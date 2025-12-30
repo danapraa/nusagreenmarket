@@ -6,9 +6,9 @@
 <div class="card">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Daftar Kategori</h5>
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
+        {{-- <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Tambah Kategori
-        </a>
+        </a> --}}
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -39,14 +39,6 @@
                             <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="d-inline" 
-                                  onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                     @empty

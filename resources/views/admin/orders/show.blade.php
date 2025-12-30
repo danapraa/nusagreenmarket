@@ -132,12 +132,13 @@
         <!-- Update Status -->
         <div class="card mb-4">
             <div class="card-header bg-white">
-                <h5 class="mb-0">Update Status</h5>
+                <h5 class="mb-0">Update Status & Tracking</h5>
             </div>
             <div class="card-body">
                 <form action="{{ route('admin.orders.update-status', $order) }}" method="POST">
                     @csrf
                     @method('PATCH')
+                    
                     <div class="mb-3">
                         <label class="form-label">Status Pesanan</label>
                         <select name="status" class="form-select" required>
@@ -148,10 +149,24 @@
                             <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                         </select>
                     </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Nomor Resi (Tracking Number)</label>
+                        <input type="text" name="tracking_number" class="form-control" value="{{ $order->tracking_number }}" placeholder="Contoh: JNE123456789">
+                        <small class="text-muted">Isi jika status diubah ke "Shipped"</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Info Kurir</label>
+                        <input type="text" name="courier_info" class="form-control" value="{{ $order->courier_info }}" placeholder="Contoh: JNE REG - Budi (081234567890)">
+                        <small class="text-muted">Nama kurir dan ekspedisi</small>
+                    </div>
+                    
                     <div class="mb-3">
                         <label class="form-label">Catatan</label>
                         <textarea name="notes" class="form-control" rows="3">{{ $order->notes }}</textarea>
                     </div>
+                    
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="fas fa-save"></i> Update Status
                     </button>

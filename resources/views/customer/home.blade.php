@@ -209,71 +209,64 @@
     </div>
 </section>
 
-<section class="py-5" style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white; position: relative; overflow: hidden;">
-    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255, 255, 255, 0.1);"></div>
-    <div style="position: absolute; bottom: -100px; left: -100px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255, 255, 255, 0.1);"></div>
+<!-- Cara Berbelanja Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; position: relative; overflow: hidden;">
+    <!-- Decorative background elements -->
+    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);"></div>
+    <div style="position: absolute; bottom: -100px; left: -100px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);"></div>
     
     <div class="container" style="position: relative; z-index: 1;">
         <div class="text-center mb-5">
             <h2 class="fw-bold mb-3" style="font-size: 2.5rem;">Cara Berbelanja</h2>
-            <p class="fs-5 mb-4" style="opacity: 0.9;">Mudah dan cepat dalam 4 langkah sederhana</p>
-            <div style="width: 60px; height: 4px; background: white; margin: 0 auto;"></div>
+            <p class="fs-5 mb-0" style="opacity: 0.95;">Mudah dan cepat dalam 4 langkah sederhana</p>
         </div>
         
-        <div class="row g-4 align-items-center">
+        <div class="row g-4 align-items-stretch">
+            <!-- Step 1 -->
             <div class="col-lg-3 col-md-6">
-                <div class="text-center p-4">
-                    <div class="rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center position-relative" 
-                         style="width: 100px; height: 100px; background: white; color: #4CAF50; font-size: 2.5rem; font-weight: bold; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);">
-                        1
-                        <div class="position-absolute" style="top: -10px; right: -10px; width: 30px; height: 30px; background: #FF6B6B; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
-                            <i class="fas fa-mouse-pointer" style="font-size: 0.8rem;"></i>
-                        </div>
+                <div class="text-center p-3" style="height: 100%;">
+                    <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.95); color: #4CAF50; font-size: 2rem; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                        <i class="fas fa-search"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Pilih Produk</h5>
-                    <p style="opacity: 0.9;">Jelajahi katalog sayuran dan buah segar kami</p>
+                    <h5 class="fw-bold mb-2" style="font-size: 1.1rem;">Pilih Produk</h5>
+                    <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Jelajahi katalog sayuran dan buah segar kami</p>
                 </div>
             </div>
             
+            <!-- Step 2 -->
             <div class="col-lg-3 col-md-6">
-                <div class="text-center p-4">
-                    <div class="rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center position-relative" 
-                         style="width: 100px; height: 100px; background: white; color: #4CAF50; font-size: 2.5rem; font-weight: bold; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);">
-                        2
-                        <div class="position-absolute" style="top: -10px; right: -10px; width: 30px; height: 30px; background: #FFB84D; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
-                            <i class="fas fa-cart-plus" style="font-size: 0.8rem;"></i>
-                        </div>
+                <div class="text-center p-3" style="height: 100%;">
+                    <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.95); color: #4CAF50; font-size: 2rem; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                        <i class="fas fa-cart-plus"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Tambah ke Keranjang</h5>
-                    <p style="opacity: 0.9;">Pilih jumlah yang diinginkan dan masukkan ke keranjang</p>
+                    <h5 class="fw-bold mb-2" style="font-size: 1.1rem;">Tambah ke Keranjang</h5>
+                    <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Pilih jumlah yang diinginkan dan masukkan ke keranjang</p>
                 </div>
             </div>
             
+            <!-- Step 3 -->
             <div class="col-lg-3 col-md-6">
-                <div class="text-center p-4">
-                    <div class="rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center position-relative" 
-                         style="width: 100px; height: 100px; background: white; color: #4CAF50; font-size: 2.5rem; font-weight: bold; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);">
-                        3
-                        <div class="position-absolute" style="top: -10px; right: -10px; width: 30px; height: 30px; background: #A78BFA; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
-                            <i class="fas fa-credit-card" style="font-size: 0.8rem;"></i>
-                        </div>
+                <div class="text-center p-3" style="height: 100%;">
+                    <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.95); color: #4CAF50; font-size: 2rem; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                        <i class="fas fa-credit-card"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Checkout</h5>
-                    <p style="opacity: 0.9;">Lakukan pembayaran dengan metode yang tersedia</p>
+                    <h5 class="fw-bold mb-2" style="font-size: 1.1rem;">Checkout</h5>
+                    <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Lakukan pembayaran dengan metode yang tersedia</p>
                 </div>
             </div>
             
+            <!-- Step 4 -->
             <div class="col-lg-3 col-md-6">
-                <div class="text-center p-4">
-                    <div class="rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center position-relative" 
-                         style="width: 100px; height: 100px; background: white; color: #4CAF50; font-size: 2.5rem; font-weight: bold; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);">
-                        4
-                        <div class="position-absolute" style="top: -10px; right: -10px; width: 30px; height: 30px; background: #34D399; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
-                            <i class="fas fa-box" style="font-size: 0.8rem;"></i>
-                        </div>
+                <div class="text-center p-3" style="height: 100%;">
+                    <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.95); color: #4CAF50; font-size: 2rem; font-weight: 600; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                        <i class="fas fa-shipping-fast"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Terima Pesanan</h5>
-                    <p style="opacity: 0.9;">Produk segar diantar langsung ke rumah Anda</p>
+                    <h5 class="fw-bold mb-2" style="font-size: 1.1rem;">Terima Pesanan</h5>
+                    <p style="opacity: 0.9; font-size: 0.95rem; line-height: 1.5;">Produk segar diantar langsung ke rumah Anda</p>
                 </div>
             </div>
         </div>
