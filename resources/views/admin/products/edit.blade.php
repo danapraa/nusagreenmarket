@@ -77,13 +77,10 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Badge</label>
                             <select name="badge" class="form-select">
-                                <option value="">Tidak Ada</option>
-                                <option value="FRESH" {{ $product->badge == 'FRESH' ? 'selected' : '' }}>FRESH</option>
-                                <option value="ORGANIC" {{ $product->badge == 'ORGANIC' ? 'selected' : '' }}>ORGANIC</option>
-                                <option value="BEST SELLER" {{ $product->badge == 'BEST SELLER' ? 'selected' : '' }}>BEST SELLER</option>
-                                <option value="NEW" {{ $product->badge == 'NEW' ? 'selected' : '' }}>NEW</option>
-                                <option value="PREMIUM" {{ $product->badge == 'PREMIUM' ? 'selected' : '' }}>PREMIUM</option>
-                                <option value="SEASONAL" {{ $product->badge == 'SEASONAL' ? 'selected' : '' }}>SEASONAL</option>
+                            <option value="">Tidak Ada</option>
+                            <option value="ORGANIC" {{ $product->badge == 'ORGANIC' ? 'selected' : '' }}>ORGANIC</option>
+                            <option value="BEST SELLER" {{ $product->badge == 'BEST SELLER' ? 'selected' : '' }}>BEST SELLER</option>
+                            <option value="PREMIUM" {{ $product->badge == 'PREMIUM' ? 'selected' : '' }}>PREMIUM</option>
                             </select>
                         </div>
                     </div>

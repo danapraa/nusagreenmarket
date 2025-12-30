@@ -62,10 +62,6 @@
                             </select>
                             @error('unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Asal Kebun</label>
-                            <input type="text" name="origin" class="form-control" value="{{ old('origin') }}" placeholder="Kebun A">
-                        </div>
                     </div>
 
                     <div class="row">
@@ -73,18 +69,15 @@
                             <label class="form-label">Tanggal Panen</label>
                             <input type="date" name="harvest_date" class="form-control" value="{{ old('harvest_date') }}">
                         </div>
-                        <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3">
                             <label class="form-label">Badge</label>
                             <select name="badge" class="form-select">
-                                <option value="">Tidak Ada</option>
-                                <option value="FRESH">FRESH</option>
-                                <option value="ORGANIC">ORGANIC</option>
-                                <option value="BEST SELLER">BEST SELLER</option>
-                                <option value="NEW">NEW</option>
-                                <option value="PREMIUM">PREMIUM</option>
-                                <option value="SEASONAL">SEASONAL</option>
-                            </select>
-                        </div>
+                            <option value="">Tidak Ada</option>
+                            <option value="ORGANIC">ORGANIC</option>
+                            <option value="BEST SELLER">BEST SELLER</option>
+                            <option value="PREMIUM">PREMIUM</option>
+                        </select>
+                    </div>
                     </div>
                 </div>
 

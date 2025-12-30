@@ -32,6 +32,10 @@ Route::get('/home', function () {
     if (auth()->user()->isAdmin()) {
         return redirect()->route('admin.dashboard');
     }
+    // Jika customer dan profil belum lengkap, ke complete profile
+    if (auth()->user()->isCustomer() && !auth()->user()->profile_completed) {
+        return redirect()->route('customer.complete-profile');
+    }
     return redirect()->route('customer.home');
 })->name('home')->middleware('auth');
 
@@ -69,16 +73,22 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 // CUSTOMER ROUTES
 // ============================================
 
-// Public Routes (Guest + Auth)
-Route::name('customer.')->group(function () {
+// Complete Profile (tanpa middleware profile.completed)
+Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
+    Route::get('/complete-profile', [ProfileController::class, 'completeProfile'])->name('complete-profile');
+    Route::post('/complete-profile', [ProfileController::class, 'storeCompleteProfile'])->name('complete-profile.store');
+});
+
+// Public Routes (Guest + Auth) - DENGAN MIDDLEWARE profile.completed
+Route::name('customer.')->middleware(['profile.completed'])->group(function () {
     // Home & Products
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/products', [HomeController::class, 'products'])->name('products');
     Route::get('/products/{product}', [HomeController::class, 'show'])->name('products.show');
 });
 
-// Protected Customer Routes
-Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
+// Protected Customer Routes - DENGAN MIDDLEWARE profile.completed
+Route::middleware(['auth', 'customer', 'profile.completed'])->name('customer.')->group(function () {
     
     // Profile Management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -105,6 +115,8 @@ Route::middleware(['auth', 'customer'])->name('customer.')->group(function () {
     Route::post('/checkout', [CustomerOrderController::class, 'processCheckout'])->name('checkout.process');
     Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/upload-payment', [CustomerOrderController::class, 'uploadPaymentProof'])->name('orders.upload-payment');
+    Route::patch('/orders/{order}/confirm-received', [CustomerOrderController::class, 'confirmReceived'])->name('orders.confirm-received');
     Route::patch('/orders/{order}/cancel', [CustomerOrderController::class, 'cancel'])->name('orders.cancel');
     
     // Reviews Management

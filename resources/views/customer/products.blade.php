@@ -6,8 +6,8 @@
 <!-- Page Header -->
 <div class="bg-light py-4">
     <div class="container">
-        <h2 class="mb-0">Semua Produk Sayuran</h2>
-        <p class="text-muted mb-0">Temukan sayuran segar pilihan Anda</p>
+        <h2 class="mb-0">Semua Produk</h2>
+        <p class="text-muted mb-0">Temukan Produk segar pilihan Anda</p>
     </div>
 </div>
 
@@ -32,13 +32,13 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Kategori</label>
                                 <div class="list-group">
-                                    <a href="{{ route('customer.products') }}" 
+                                    <a href="{{ route('customer.products') }}"
                                        class="list-group-item list-group-item-action {{ !request('category') ? 'active' : '' }}">
                                         Semua Kategori
                                         <span class="badge bg-secondary float-end">{{ $categories->sum('products_count') }}</span>
                                     </a>
                                     @foreach($categories as $cat)
-                                    <a href="{{ route('customer.products', ['category' => $cat->id]) }}" 
+                                    <a href="{{ route('customer.products', ['category' => $cat->id]) }}"
                                        class="list-group-item list-group-item-action {{ request('category') == $cat->id ? 'active' : '' }}">
                                         {{ $cat->icon }} {{ $cat->name }}
                                         <span class="badge bg-secondary float-end">{{ $cat->products_count }}</span>
@@ -56,7 +56,6 @@
                                     <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Harga Tertinggi</option>
                                     <option value="best_seller" {{ request('sort') == 'best_seller' ? 'selected' : '' }}>Best Seller</option>
                                     <option value="premium" {{ request('sort') == 'premium' ? 'selected' : '' }}>Premium</option>
-                                    <option value="fresh" {{ request('sort') == 'fresh' ? 'selected' : '' }}>Fresh</option>
                                     <option value="organic" {{ request('sort') == 'organic' ? 'selected' : '' }}>Organic</option>
                                 </select>
                             </div>
@@ -94,7 +93,7 @@
                                 @if($product->badge)
                                 <div class="product-badge">{{ $product->badge }}</div>
                                 @endif
-                                
+
                                 @auth
                                     @if(auth()->user()->isCustomer())
                                         @php
@@ -110,11 +109,11 @@
                                         </form>
                                     @endif
                                 @endauth
-                                
+
                                 @if($product->image)
                                 <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}" style="height: 200px; object-fit: cover;">
                                 @else
-                                <div class="card-img-top d-flex align-items-center justify-content-center" 
+                                <div class="card-img-top d-flex align-items-center justify-content-center"
                                      style="height: 200px; background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white; font-size: 3rem;">
                                     🥬
                                 </div>
@@ -123,7 +122,7 @@
 
                             <div class="card-body">
                                 <span class="badge bg-secondary mb-2">{{ $product->category->name }}</span>
-                                
+
                                 <!-- Rating Display -->
                                 <div class="mb-2">
                                     @php
@@ -145,7 +144,7 @@
                                             @endfor
                                         </div>
                                         <small class="text-muted">
-                                            {{ number_format($avgRating, 1) }} 
+                                            {{ number_format($avgRating, 1) }}
                                             @if($totalReviews > 0)
                                                 ({{ $totalReviews }} ulasan)
                                             @else
@@ -154,15 +153,15 @@
                                         </small>
                                     </div>
                                 </div>
-                                
+
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt"></i> {{ $product->origin ?? 'Kebun Lokal' }} • 
+                                    <i class="fas fa-map-marker-alt"></i> {{ $product->origin ?? 'Kebun Lokal' }} •
                                     Stok: {{ $product->stock }} {{ $product->unit }}
                                 </p>
                                 <p class="card-text">{{ Str::limit($product->description, 60) }}</p>
                                 <h4 class="text-success mb-3">Rp{{ number_format($product->price, 0, ',', '.') }}/{{ $product->unit }}</h4>
-                                
+
                                 @auth
                                     @if(auth()->user()->isCustomer())
                                     <div class="d-flex gap-2 mb-2">
@@ -182,7 +181,7 @@
                                 @else
                                 <a href="{{ route('login') }}" class="btn btn-success w-100 mb-2">Login untuk Belanja</a>
                                 @endauth
-                                
+
                                 <a href="{{ route('customer.products.show', $product) }}" class="btn btn-outline-success w-100 btn-sm">
                                     <i class="fas fa-eye"></i> Detail & Ulasan
                                 </a>

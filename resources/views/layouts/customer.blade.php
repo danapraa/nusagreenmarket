@@ -79,7 +79,7 @@
             width: 20px;
             height: 20px;
             font-size: 0.7rem;
-            display: flex;
+            display: flex;  
             align-items: center;
             justify-content: center;
         }
@@ -91,7 +91,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('customer.home') }}">
-                <img src="storage/images/logocompro.png" alt="NusaGreenMarket Logo" width="50" height="50">
+                <img src="/storage/images/logocompro.png" alt="NusaGreenMarket Logo" width="50" height="50">
                 <span>NusaGreenMarket</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -193,7 +193,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="storage/images/logo-putih.png" alt="NusaGreenMarket Logo" width="50" height="50">
+                    <img src="/storage/images/logo-putih.png" alt="NusaGreenMarket Logo" width="50" height="50">
                 <span>NusaGreenMarket</span>
                     <p class="text-white-50">Sayuran segar langsung dari petani ke meja Anda.</p>
                 </div>
